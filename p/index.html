@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Supplementary code for the Build a Large Language Model From Scratch book by Sebastian Raschka Code repository: https://github.com/rasbt/LLMs-from-scratch Chapter 2: Working with Text Packages that are being used in this notebook: This chapter covers data preparation and sampling to get input data &ldquo;ready&rdquo; for the LLM 2.1 Understanding word embeddings No code in this section There are many forms of embeddings; we focus on text embeddings in this book LLMs work with embeddings in high-dimensional spaces (i.">
+<title></title>
+
+<link rel='canonical' href='https://CarlossQAQ.github.io/p/'>
+
+<link rel="stylesheet" href="/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css"><meta property='og:title' content="">
+<meta property='og:description' content="Supplementary code for the Build a Large Language Model From Scratch book by Sebastian Raschka Code repository: https://github.com/rasbt/LLMs-from-scratch Chapter 2: Working with Text Packages that are being used in this notebook: This chapter covers data preparation and sampling to get input data &ldquo;ready&rdquo; for the LLM 2.1 Understanding word embeddings No code in this section There are many forms of embeddings; we focus on text embeddings in this book LLMs work with embeddings in high-dimensional spaces (i.">
+<meta property='og:url' content='https://CarlossQAQ.github.io/p/'>
+<meta property='og:site_name' content='Carlos_Hu'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' />
+<meta name="twitter:site" content="@CarlosHu4961">
+    <meta name="twitter:creator" content="@CarlosHu4961"><meta name="twitter:title" content="">
+<meta name="twitter:description" content="Supplementary code for the Build a Large Language Model From Scratch book by Sebastian Raschka Code repository: https://github.com/rasbt/LLMs-from-scratch Chapter 2: Working with Text Packages that are being used in this notebook: This chapter covers data preparation and sampling to get input data &ldquo;ready&rdquo; for the LLM 2.1 Understanding word embeddings No code in this section There are many forms of embeddings; we focus on text embeddings in this book LLMs work with embeddings in high-dimensional spaces (i.">
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+  
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu17946783734494809016.png" width="300"
+                            height="299" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🦉</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Carlos_Hu</a></h1>
+            <h2 class="site-description">I would like to create a learning exchange site to urge me to learn new knowledge, so... join to learn together!</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/40617058?spm_id_from=333.1007.0.0'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/CarlossQAQ'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://CarlossQAQ.github.io/" selected>Let&#39;s speak English</option>
+                                
+                                    <option value="https://CarlossQAQ.github.io/zh-cn/" >让我们说中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#21-understanding-word-embeddings">2.1 Understanding word embeddings</a></li>
+    <li><a href="#22-tokenizing-text">2.2 Tokenizing text</a></li>
+    <li><a href="#23-converting-tokens-into-token-ids">2.3 Converting tokens into token IDs</a></li>
+    <li><a href="#24-adding-special-context-tokens">2.4 Adding special context tokens</a></li>
+    <li><a href="#25-bytepair-encoding">2.5 BytePair encoding</a></li>
+    <li><a href="#26-data-sampling-with-a-sliding-window">2.6 Data sampling with a sliding window</a></li>
+    <li><a href="#27-creating-token-embeddings">2.7 Creating token embeddings</a></li>
+    <li><a href="#28-encoding-word-positions">2.8 Encoding word positions</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/"></a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    8 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <table style="width:100%">
+<tr>
+<td style="vertical-align:middle; text-align:left;">
+<font size="2">
+<p>Supplementary code for the <a href="http://mng.bz/orYv">Build a Large Language Model From Scratch</a> book by <a href="https://sebastianraschka.com">Sebastian Raschka</a><br></p>
+<p><br>Code repository: <a href="https://github.com/rasbt/LLMs-from-scratch"><a class="link" href="https://github.com/rasbt/LLMs-from-scratch"  target="_blank" rel="noopener"
+    >https://github.com/rasbt/LLMs-from-scratch</a></a></p>
+</font>
+</td>
+<td style="vertical-align:middle; text-align:left;">
+<p><a href="http://mng.bz/orYv"><img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/cover-small.webp" width="100px"></a></p>
+</td>
+</tr>
+</table>
+<h1 id="chapter-2-working-with-text">Chapter 2: Working with Text
+</h1><p>Packages that are being used in this notebook:</p>
+<ul>
+<li>This chapter covers data preparation and sampling to get input data &ldquo;ready&rdquo; for the LLM
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/01.webp?timestamp=1" width="500px"></li>
+</ul>
+<h2 id="21-understanding-word-embeddings">2.1 Understanding word embeddings
+</h2><ul>
+<li>
+<p>No code in this section</p>
+</li>
+<li>
+<p>There are many forms of embeddings; we focus on text embeddings in this book
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/02.webp" width="500px"></p>
+</li>
+<li>
+<p>LLMs work with embeddings in high-dimensional spaces (i.e., thousands of dimensions)</p>
+</li>
+<li>
+<p>Since we can&rsquo;t visualize such high-dimensional spaces (we humans think in 1, 2, or 3 dimensions), the figure below illustrates a 2-dimensional embedding space
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/03.webp" width="300px"></p>
+</li>
+</ul>
+<h2 id="22-tokenizing-text">2.2 Tokenizing text
+</h2><ul>
+<li>
+<p>In this section, we tokenize text, which means breaking text into smaller units, such as individual words and punctuation characters
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/04.webp" width="300px"></p>
+</li>
+<li>
+<p>Load raw text we want to work with</p>
+</li>
+<li>
+<p><a class="link" href="https://en.wikisource.org/wiki/The_Verdict"  target="_blank" rel="noopener"
+    >The Verdict by Edith Wharton</a> is a public domain short story</p>
+</li>
+<li>
+<p>(If you encounter an <code>ssl.SSLCertVerificationError</code> when executing the previous code cell, it might be due to using an outdated Python version; you can find <a class="link" href="https://github.com/rasbt/LLMs-from-scratch/pull/403"  target="_blank" rel="noopener"
+    >more information here on GitHub</a>)</p>
+</li>
+<li>
+<p>The goal is to tokenize and embed this text for an LLM</p>
+</li>
+<li>
+<p>Let&rsquo;s develop a simple tokenizer based on some simple sample text that we can then later apply to the text above</p>
+</li>
+<li>
+<p>The following regular expression will split on whitespaces</p>
+</li>
+<li>
+<p>We don&rsquo;t only want to split on whitespaces but also commas and periods, so let&rsquo;s modify the regular expression to do that as well</p>
+</li>
+<li>
+<p>As we can see, this creates empty strings, let&rsquo;s remove them</p>
+</li>
+<li>
+<p>This looks pretty good, but let&rsquo;s also handle other types of punctuation, such as periods, question marks, and so on</p>
+</li>
+<li>
+<p>This is pretty good, and we are now ready to apply this tokenization to the raw text
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/05.webp" width="350px"></p>
+</li>
+<li>
+<p>Let&rsquo;s calculate the total number of tokens</p>
+</li>
+</ul>
+<h2 id="23-converting-tokens-into-token-ids">2.3 Converting tokens into token IDs
+</h2><ul>
+<li>
+<p>Next, we convert the text tokens into token IDs that we can process via embedding layers later
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/06.webp" width="500px"></p>
+</li>
+<li>
+<p>From these tokens, we can now build a vocabulary that consists of all the unique tokens</p>
+</li>
+<li>
+<p>Below are the first 50 entries in this vocabulary:</p>
+</li>
+<li>
+<p>Below, we illustrate the tokenization of a short sample text using a small vocabulary:
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/07.webp?123" width="500px"></p>
+</li>
+<li>
+<p>Putting it now all together into a tokenizer class</p>
+</li>
+<li>
+<p>The <code>encode</code> function turns text into token IDs</p>
+</li>
+<li>
+<p>The <code>decode</code> function turns token IDs back into text
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/08.webp?123" width="500px"></p>
+</li>
+<li>
+<p>We can use the tokenizer to encode (that is, tokenize) texts into integers</p>
+</li>
+<li>
+<p>These integers can then be embedded (later) as input of/for the LLM</p>
+</li>
+<li>
+<p>We can decode the integers back into text</p>
+</li>
+</ul>
+<h2 id="24-adding-special-context-tokens">2.4 Adding special context tokens
+</h2><ul>
+<li>
+<p>It&rsquo;s useful to add some &ldquo;special&rdquo; tokens for unknown words and to denote the end of a text
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/09.webp?123" width="500px"></p>
+</li>
+<li>
+<p>Some tokenizers use special tokens to help the LLM with additional context</p>
+</li>
+<li>
+<p>Some of these special tokens are</p>
+<ul>
+<li>
+<p><code>[BOS]</code> (beginning of sequence) marks the beginning of text</p>
+</li>
+<li>
+<p><code>[EOS]</code> (end of sequence) marks where the text ends (this is usually used to concatenate multiple unrelated texts, e.g., two different Wikipedia articles or two different books, and so on)</p>
+</li>
+<li>
+<p><code>[PAD]</code> (padding) if we train LLMs with a batch size greater than 1 (we may include multiple texts with different lengths; with the padding token we pad the shorter texts to the longest length so that all texts have an equal length)</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>[UNK]</code> to represent words that are not included in the vocabulary</p>
+</li>
+<li>
+<p>Note that GPT-2 does not need any of these tokens mentioned above but only uses an <code>&lt;|endoftext|&gt;</code> token to reduce complexity</p>
+</li>
+<li>
+<p>The <code>&lt;|endoftext|&gt;</code> is analogous to the <code>[EOS]</code> token mentioned above</p>
+</li>
+<li>
+<p>GPT also uses the <code>&lt;|endoftext|&gt;</code> for padding (since we typically use a mask when training on batched inputs, we would not attend padded tokens anyways, so it does not matter what these tokens are)</p>
+</li>
+<li>
+<p>GPT-2 does not use an <code>&lt;UNK&gt;</code> token for out-of-vocabulary words; instead, GPT-2 uses a byte-pair encoding (BPE) tokenizer, which breaks down words into subword units which we will discuss in a later section</p>
+</li>
+<li>
+<p>We use the <code>&lt;|endoftext|&gt;</code> tokens between two independent sources of text:
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/10.webp" width="500px"></p>
+</li>
+<li>
+<p>Let&rsquo;s see what happens if we tokenize the following text:</p>
+</li>
+<li>
+<p>The above produces an error because the word &ldquo;Hello&rdquo; is not contained in the vocabulary</p>
+</li>
+<li>
+<p>To deal with such cases, we can add special tokens like <code>&quot;&lt;|unk|&gt;&quot;</code> to the vocabulary to represent unknown words</p>
+</li>
+<li>
+<p>Since we are already extending the vocabulary, let&rsquo;s add another token called <code>&quot;&lt;|endoftext|&gt;&quot;</code> which is used in GPT-2 training to denote the end of a text (and it&rsquo;s also used between concatenated text, like if our training datasets consists of multiple articles, books, etc.)</p>
+</li>
+<li>
+<p>We also need to adjust the tokenizer accordingly so that it knows when and how to use the new <code>&lt;unk&gt;</code> token
+Let&rsquo;s try to tokenize text with the modified tokenizer:</p>
+</li>
+</ul>
+<h2 id="25-bytepair-encoding">2.5 BytePair encoding
+</h2><ul>
+<li>
+<p>GPT-2 used BytePair encoding (BPE) as its tokenizer</p>
+</li>
+<li>
+<p>it allows the model to break down words that aren&rsquo;t in its predefined vocabulary into smaller subword units or even individual characters, enabling it to handle out-of-vocabulary words</p>
+</li>
+<li>
+<p>For instance, if GPT-2&rsquo;s vocabulary doesn&rsquo;t have the word &ldquo;unfamiliarword,&rdquo; it might tokenize it as [&ldquo;unfam&rdquo;, &ldquo;iliar&rdquo;, &ldquo;word&rdquo;] or some other subword breakdown, depending on its trained BPE merges</p>
+</li>
+<li>
+<p>The original BPE tokenizer can be found here: <a class="link" href="https://github.com/openai/gpt-2/blob/master/src/encoder.py"  target="_blank" rel="noopener"
+    >https://github.com/openai/gpt-2/blob/master/src/encoder.py</a></p>
+</li>
+<li>
+<p>In this chapter, we are using the BPE tokenizer from OpenAI&rsquo;s open-source <a class="link" href="https://github.com/openai/tiktoken"  target="_blank" rel="noopener"
+    >tiktoken</a> library, which implements its core algorithms in Rust to improve computational performance</p>
+</li>
+<li>
+<p>I created a notebook in the <a class="link" href="../02_bonus_bytepair-encoder" >./bytepair_encoder</a> that compares these two implementations side-by-side (tiktoken was about 5x faster on the sample text)</p>
+</li>
+<li>
+<p>BPE tokenizers break down unknown words into subwords and individual characters:
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/11.webp" width="300px"></p>
+</li>
+</ul>
+<h2 id="26-data-sampling-with-a-sliding-window">2.6 Data sampling with a sliding window
+</h2><ul>
+<li>
+<p>We train LLMs to generate one word at a time, so we want to prepare the training data accordingly where the next word in a sequence represents the target to predict:
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/12.webp" width="400px"></p>
+</li>
+<li>
+<p>For each text chunk, we want the inputs and targets</p>
+</li>
+<li>
+<p>Since we want the model to predict the next word, the targets are the inputs shifted by one position to the right</p>
+</li>
+<li>
+<p>One by one, the prediction would look like as follows:</p>
+</li>
+<li>
+<p>We will take care of the next-word prediction in a later chapter after we covered the attention mechanism</p>
+</li>
+<li>
+<p>For now, we implement a simple data loader that iterates over the input dataset and returns the inputs and targets shifted by one</p>
+</li>
+<li>
+<p>Install and import PyTorch (see Appendix A for installation tips)</p>
+</li>
+<li>
+<p>We use a sliding window approach, changing the position by +1:</p>
+</li>
+</ul>
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/13.webp?123" width="500px">
+- Create dataset and dataloader that extract chunks from the input text dataset
+- Let's test the dataloader with a batch size of 1 for an LLM with a context size of 4:
+- An example using stride equal to the context length (here: 4) as shown below:
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/14.webp" width="500px">
+- We can also create batched outputs
+<ul>
+<li>Note that we increase the stride here so that we don&rsquo;t have overlaps between the batches, since more overlap could lead to increased overfitting</li>
+</ul>
+<h2 id="27-creating-token-embeddings">2.7 Creating token embeddings
+</h2><ul>
+<li>
+<p>The data is already almost ready for an LLM</p>
+</li>
+<li>
+<p>But lastly let us embed the tokens in a continuous vector representation using an embedding layer</p>
+</li>
+<li>
+<p>Usually, these embedding layers are part of the LLM itself and are updated (trained) during model training
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/15.webp" width="400px"></p>
+</li>
+<li>
+<p>Suppose we have the following four input examples with input ids 2, 3, 5, and 1 (after tokenization):</p>
+</li>
+<li>
+<p>For the sake of simplicity, suppose we have a small vocabulary of only 6 words and we want to create embeddings of size 3:</p>
+</li>
+<li>
+<p>This would result in a 6x3 weight matrix:</p>
+</li>
+<li>
+<p>For those who are familiar with one-hot encoding, the embedding layer approach above is essentially just a more efficient way of implementing one-hot encoding followed by matrix multiplication in a fully-connected layer, which is described in the supplementary code in <a class="link" href="../03_bonus_embedding-vs-matmul" >./embedding_vs_matmul</a></p>
+</li>
+<li>
+<p>Because the embedding layer is just a more efficient implementation that is equivalent to the one-hot encoding and matrix-multiplication approach it can be seen as a neural network layer that can be optimized via backpropagation</p>
+</li>
+<li>
+<p>To convert a token with id 3 into a 3-dimensional vector, we do the following:</p>
+</li>
+<li>
+<p>Note that the above is the 4th row in the <code>embedding_layer</code> weight matrix</p>
+</li>
+<li>
+<p>To embed all four <code>input_ids</code> values above, we do</p>
+</li>
+<li>
+<p>An embedding layer is essentially a look-up operation:
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/16.webp?123" width="500px"></p>
+</li>
+<li>
+<p><strong>You may be interested in the bonus content comparing embedding layers with regular linear layers: <a class="link" href="../03_bonus_embedding-vs-matmul" >../03_bonus_embedding-vs-matmul</a></strong></p>
+</li>
+</ul>
+<h2 id="28-encoding-word-positions">2.8 Encoding word positions
+</h2><ul>
+<li>
+<p>Embedding layer convert IDs into identical vector representations regardless of where they are located in the input sequence:
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/17.webp" width="400px"></p>
+</li>
+<li>
+<p>Positional embeddings are combined with the token embedding vector to form the input embeddings for a large language model:
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/18.webp" width="500px"></p>
+</li>
+<li>
+<p>The BytePair encoder has a vocabulary size of 50,257:</p>
+</li>
+<li>
+<p>Suppose we want to encode the input tokens into a 256-dimensional vector representation:</p>
+</li>
+<li>
+<p>If we sample data from the dataloader, we embed the tokens in each batch into a 256-dimensional vector</p>
+</li>
+<li>
+<p>If we have a batch size of 8 with 4 tokens each, this results in a 8 x 4 x 256 tensor:</p>
+</li>
+<li>
+<p>GPT-2 uses absolute position embeddings, so we just create another embedding layer:</p>
+</li>
+<li>
+<p>To create the input embeddings used in an LLM, we simply add the token and the positional embeddings:</p>
+</li>
+<li>
+<p>In the initial phase of the input processing workflow, the input text is segmented into separate tokens</p>
+</li>
+<li>
+<p>Following this segmentation, these tokens are transformed into token IDs based on a predefined vocabulary:
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/ch02_compressed/19.webp" width="400px"></p>
+</li>
+</ul>
+<h1 id="summary-and-takeaways">Summary and takeaways
+</h1><p>See the <a class="link" href="./dataloader.ipynb" >./dataloader.ipynb</a> code notebook, which is a concise version of the data loader that we implemented in this chapter and will need for training the GPT model in upcoming chapters.</p>
+<p>See <a class="link" href="./exercise-solutions.ipynb" >./exercise-solutions.ipynb</a> for the exercise solutions.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 Carloss_Hu
+    </section>
+    
+    <section class="powerby">
+        
+            contact me @Carlos_Hu <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.26.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
