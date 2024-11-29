@@ -13,33 +13,33 @@
         <pubDate>Fri, 29 Nov 2024 11:44:31 +0800</pubDate>
         
         <guid>https://CarlossQAQ.github.io/p/marcov_chain_prediction_algorithm/</guid>
-        <description>&lt;p&gt;Markov Chain Prediction Algorithm&lt;/p&gt;
-&lt;p&gt;Welcome to this tutorial on the Markov Chain Prediction Algorithm! In this post, we&amp;rsquo;ll break down its concepts step by step, using simple language and visual aids. By the end, you&amp;rsquo;ll have implemented a practical example of Markov Chains predicting probabilities for real-world decisions.&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&#34;what-is-a-markov-chain&#34;&gt;What is a Markov Chain?
-&lt;/h2&gt;&lt;p&gt;A Markov Chain is a mathematical model that describes a system transitioning between states with certain probabilities. Its defining feature is the &lt;strong&gt;Markov Property&lt;/strong&gt;, which states: &amp;ldquo;The future state depends only on the current state, not on the sequence of states that preceded it.&amp;rdquo;&lt;/p&gt;
-&lt;p&gt;Mathematically, this is expressed as:&lt;/p&gt;
-&lt;p&gt;[
+        <description>&lt;h2 id=&#34;what-is-a-markov-chain&#34;&gt;What is a Markov Chain?
+&lt;/h2&gt;&lt;p&gt;A &lt;strong&gt;Markov Chain&lt;/strong&gt; is a mathematical model describing transitions between states based on probabilities. Its defining property is that the &lt;strong&gt;future state depends only on the current state&lt;/strong&gt;, not on past states.&lt;/p&gt;
+&lt;h3 id=&#34;markov-property&#34;&gt;Markov Property
+&lt;/h3&gt;&lt;p&gt;The Markov Property is expressed mathematically as:&lt;/p&gt;
+&lt;p&gt;$$
 P(X_{t+1} = s_j | X_t = s_i, X_{t-1}, &amp;hellip;, X_0) = P(X_{t+1} = s_j | X_t = s_i)
-]&lt;/p&gt;
+$$&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;state-transition-probability-matrix&#34;&gt;State Transition Probability Matrix
-&lt;/h2&gt;&lt;p&gt;The heart of a Markov Chain is the &lt;strong&gt;state transition probability matrix&lt;/strong&gt;, which defines the probabilities of moving between states. Here&amp;rsquo;s an example for a three-state system (( s_1, s_2, s_3 )):&lt;/p&gt;
-&lt;p&gt;[
-P = \begin{bmatrix}
+&lt;/h2&gt;&lt;p&gt;The state transitions in a Markov Chain are described by a &lt;strong&gt;state transition probability matrix&lt;/strong&gt;, ( P ):&lt;/p&gt;
+&lt;p&gt;$$
+P =
+\begin{bmatrix}
 0.7 &amp;amp; 0.2 &amp;amp; 0.1 \
 0.3 &amp;amp; 0.4 &amp;amp; 0.3 \
 0.2 &amp;amp; 0.3 &amp;amp; 0.5
 \end{bmatrix}
-]&lt;/p&gt;
-&lt;p&gt;A visual representation of state transitions might look like this:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://CarlossQAQ.github.io/p/marcov_chain_prediction_algorithm/state_transition_matrix.png&#34;
+$$&lt;/p&gt;
+&lt;p&gt;Each entry ( P(s_j|s_i) ) represents the probability of transitioning from state ( s_i ) to state ( s_j ). The rows of the matrix must sum to 1.&lt;/p&gt;
+&lt;h3 id=&#34;visual-representation&#34;&gt;Visual Representation
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://CarlossQAQ.github.io/p/marcov_chain_prediction_algorithm/state_transition_matrix.png&#34;
 	width=&#34;954&#34;
 	height=&#34;800&#34;
 	srcset=&#34;https://CarlossQAQ.github.io/p/marcov_chain_prediction_algorithm/state_transition_matrix_hu5722981567273431262.png 480w, https://CarlossQAQ.github.io/p/marcov_chain_prediction_algorithm/state_transition_matrix_hu7721517031506615268.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;State Transition Diagram&#34;
+		alt=&#34;State Transition Matrix&#34;
 	
 	
 		class=&#34;gallery-image&#34; 
@@ -47,48 +47,48 @@ P = \begin{bmatrix}
 		data-flex-basis=&#34;286px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Each row represents the probability distribution for the current state transitioning to other states.&lt;/li&gt;
-&lt;li&gt;For example, the probability of transitioning from ( s_1 ) to ( s_2 ) is 0.2.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;The rows must sum to 1, as they represent probability distributions.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://CarlossQAQ.github.io/p/marcov_chain_prediction_algorithm/state_transition_diagram.png&#34;
+	width=&#34;1600&#34;
+	height=&#34;1200&#34;
+	srcset=&#34;https://CarlossQAQ.github.io/p/marcov_chain_prediction_algorithm/state_transition_diagram_hu6959064839851416965.png 480w, https://CarlossQAQ.github.io/p/marcov_chain_prediction_algorithm/state_transition_diagram_hu17490209543252086977.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;State Transition Diagram&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;133&#34;
+		data-flex-basis=&#34;320px&#34;
+	
+&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;initial-state-distribution&#34;&gt;Initial State Distribution
-&lt;/h2&gt;&lt;p&gt;Before predicting future states, we need an &lt;strong&gt;initial state distribution&lt;/strong&gt; ( \pi ), for example:&lt;/p&gt;
-&lt;p&gt;[
-\pi = [1.0, 0.0, 0.0]
-]&lt;/p&gt;
-&lt;p&gt;This means the system starts entirely in state ( s_1 ).&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;The &lt;strong&gt;initial state distribution&lt;/strong&gt; is represented as a vector ( \pi ). For example:&lt;/p&gt;
+&lt;p&gt;$$
+\pi^{(0)} = [1.0, 0.0, 0.0]
+$$&lt;/p&gt;
+&lt;p&gt;This means the system starts entirely in state ( s_1 ) (eating out).&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;prediction-formula&#34;&gt;Prediction Formula
-&lt;/h2&gt;&lt;p&gt;The key formula for predicting future states is:&lt;/p&gt;
-&lt;p&gt;[
+&lt;/h2&gt;&lt;p&gt;To predict the state distribution at the next time step, use the formula:&lt;/p&gt;
+&lt;p&gt;$$
 \pi^{(t+1)} = \pi^{(t)} \cdot P
-]&lt;/p&gt;
-&lt;p&gt;This means we multiply the current state distribution ( \pi^{(t)} ) by the state transition matrix ( P ) to get the next state distribution ( \pi^{(t+1)} ). Repeating this process predicts future states.&lt;/p&gt;
+$$&lt;/p&gt;
+&lt;p&gt;Repeat this process iteratively to predict the distribution over multiple steps.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&#34;practical-example-decision-making&#34;&gt;Practical Example: Decision Making
-&lt;/h2&gt;&lt;p&gt;Imagine you&amp;rsquo;re deciding what to do tomorrow. You have three choices:&lt;/p&gt;
+&lt;h2 id=&#34;practical-example-deciding-daily-activities&#34;&gt;Practical Example: Deciding Daily Activities
+&lt;/h2&gt;&lt;p&gt;Imagine you’re deciding what to do tomorrow:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Eat out (state ( s_1 )).&lt;/li&gt;
-&lt;li&gt;Go for a walk (state ( s_2 )).&lt;/li&gt;
-&lt;li&gt;Grab coffee (state ( s_3 )).&lt;/li&gt;
+&lt;li&gt;Eat out (( s_1 )).&lt;/li&gt;
+&lt;li&gt;Go for a walk (( s_2 )).&lt;/li&gt;
+&lt;li&gt;Grab coffee (( s_3 )).&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;You estimate the probabilities for transitions based on your preferences. For example:&lt;/p&gt;
+&lt;p&gt;Based on your habits:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;If you eat out today, there&amp;rsquo;s a 70% chance you&amp;rsquo;ll eat out again tomorrow, a 20% chance you&amp;rsquo;ll go for a walk, and a 10% chance you&amp;rsquo;ll grab coffee.&lt;/li&gt;
-&lt;li&gt;If you go for a walk today, there&amp;rsquo;s a 30% chance you&amp;rsquo;ll eat out, 40% chance you&amp;rsquo;ll go for another walk, and 30% chance you&amp;rsquo;ll grab coffee.&lt;/li&gt;
-&lt;li&gt;If you grab coffee today, there&amp;rsquo;s a 20% chance you&amp;rsquo;ll eat out, 30% chance you&amp;rsquo;ll go for a walk, and 50% chance you&amp;rsquo;ll grab coffee again.&lt;/li&gt;
+&lt;li&gt;If you eat out today, there’s a 70% chance you’ll eat out again tomorrow, 20% chance for a walk, and 10% chance for coffee.&lt;/li&gt;
+&lt;li&gt;Similar transition probabilities apply for other states.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Here&amp;rsquo;s the state transition matrix for this scenario:&lt;/p&gt;
-&lt;p&gt;[
-P = \begin{bmatrix}
-0.7 &amp;amp; 0.2 &amp;amp; 0.1 \
-0.3 &amp;amp; 0.4 &amp;amp; 0.3 \
-0.2 &amp;amp; 0.3 &amp;amp; 0.5
-\end{bmatrix}
-]&lt;/p&gt;
-&lt;p&gt;Starting with an initial state where you ate out today ( \pi = [1.0, 0.0, 0.0] ), let&amp;rsquo;s predict what you&amp;rsquo;ll most likely do over the next few days.&lt;/p&gt;
+&lt;p&gt;The state transition matrix ( P ) and initial state distribution ( \pi ) are as shown earlier. Let’s predict your activity distribution over the next 10 days.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;python-implementation&#34;&gt;Python Implementation
 &lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -151,7 +151,7 @@ P = \begin{bmatrix}
 &lt;/div&gt;
 &lt;/div&gt;&lt;hr&gt;
 &lt;h2 id=&#34;example-output&#34;&gt;Example Output
-&lt;/h2&gt;&lt;p&gt;Using the above code, you can predict what you&amp;rsquo;ll most likely do tomorrow and the days after. For example:&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;Running the above code produces the following output:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -168,10 +168,10 @@ P = \begin{bmatrix}
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Step 10: [0.4 0.3 0.3]
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;This means by the 10th day, you&amp;rsquo;re equally likely to eat out, go for a walk, or grab coffee!&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;By the 10th day, the probabilities stabilize at ( [0.4, 0.3, 0.3] ), indicating equal chances for eating out, walking, or grabbing coffee.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id=&#34;conclusion&#34;&gt;Conclusion
-&lt;/h2&gt;&lt;p&gt;Markov Chains offer a simple yet powerful framework for modeling state transitions in various contexts, from daily decision-making to weather forecasting. Try tweaking the probabilities or initial states to see how the outcomes change!&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;Markov Chains are versatile and easy to implement. Whether predicting daily decisions, modeling weather patterns, or generating text, they provide a powerful framework for understanding probabilistic systems.&lt;/p&gt;
 </description>
         </item>
         <item>
