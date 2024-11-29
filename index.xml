@@ -7,7 +7,87 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
         <copyright>Carloss_Hu</copyright>
-        <lastBuildDate>Fri, 29 Nov 2024 11:44:31 +0800</lastBuildDate><atom:link href="https://CarlossQAQ.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 29 Nov 2024 14:40:58 +0800</lastBuildDate><atom:link href="https://CarlossQAQ.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Disease detection program logbook(continuously_updated)</title>
+        <link>https://CarlossQAQ.github.io/p/disease-detection-program-logbookcontinuously_updated/</link>
+        <pubDate>Fri, 29 Nov 2024 14:40:58 +0800</pubDate>
+        
+        <guid>https://CarlossQAQ.github.io/p/disease-detection-program-logbookcontinuously_updated/</guid>
+        <description>&lt;h1 id=&#34;disease_detection-project-log&#34;&gt;Disease_detection Project Log
+&lt;/h1&gt;&lt;h2 id=&#34;1113---project-kickoff&#34;&gt;11.13 - Project Kickoff
+&lt;/h2&gt;&lt;p&gt;The project was officially launched under the leadership of Carlos, with Ken serving as the advisor. Team members include Medicine, Quinn, Gina, and Keith. The goal is to detect disease-related terms and enhance skills in natural language processing and deep learning.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;1124---keyword-assignment-and-tool-selection&#34;&gt;11.24 - Keyword Assignment and Tool Selection
+&lt;/h2&gt;&lt;p&gt;The team finalized the keyword assignments, with each member selecting specific keywords for the project. The selections are organized as follows:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Team Member&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Keywords&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Carlos&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- &lt;strong&gt;Down syndrome (唐氏综合征)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Klinefelter syndrome (超雄综合征)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Schizophrenia (精神分裂)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Bipolar disorder (躁郁症)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Poliomyelitis (小儿麻痹症)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Cerebral palsy (脑瘫)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Fever (发热)&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Quinn&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- &lt;strong&gt;Hyperthyroidism (甲亢)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Hypertension (高血压)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Alzheimer&amp;rsquo;s disease (老年痴呆)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Stroke (中风)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Headache (头痛/头疼)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Epilepsy (羊癫疯)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Constipation (便秘)&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Medicine&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- &lt;strong&gt;Internal heat (上火)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Cerebral infarction and thrombosis (脑梗和脑血栓)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Cancer (癌症)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Vegetative state (植物人)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Bipolar affective disorder (双向情感障碍)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Terminal illness (绝症)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;PTSD (创伤后应激障碍)&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Ken&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- &lt;strong&gt;Cataract (白内障)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Halitosis (口臭)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Psychosis (精神病)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Allergy (过敏)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Vomiting (呕吐)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Stomachache (胃痛)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Muscle cramp (抽筋)&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Gina&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- &lt;strong&gt;Dizziness (头晕)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Asthma (哮喘)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Amnesia (失忆)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Forgetfulness (健忘)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Alzheimer&amp;rsquo;s (阿兹海默)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Dementia (痴呆)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Parkinson&amp;rsquo;s disease (帕金森)&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Keith&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;- &lt;strong&gt;Obsessive-compulsive disorder (OCD, 强迫症)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Rabies (狂犬病)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Dissociative identity disorder (人格分裂)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Kidney deficiency (肾亏)&lt;/strong&gt;&lt;br&gt;- &lt;strong&gt;Erectile dysfunction (阳痿)&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;1127---second-team-meeting&#34;&gt;11.27 - Second Team Meeting
+&lt;/h2&gt;&lt;p&gt;Key issues were identified and discussed during the second meeting:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Classification of Context Meaning&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Original meaning, reflects physical condition (Label: 0).&lt;/li&gt;
+&lt;li&gt;Original meaning, does not reflect physical condition (Label: 1).&lt;/li&gt;
+&lt;li&gt;Sarcasm or figurative meaning (Label: 2).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Keyword Filtering&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Should certain keywords be removed?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Missing Attached Images&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;How to address the issue of missing attached images in Weibo posts?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Dataset Balance&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Examine the dataset to determine if it is balanced. If imbalanced, increase data for underrepresented labels.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+</description>
+        </item>
+        <item>
         <title>Marcov_chain_prediction_algorithm</title>
         <link>https://CarlossQAQ.github.io/p/marcov_chain_prediction_algorithm/</link>
         <pubDate>Fri, 29 Nov 2024 11:44:31 +0800</pubDate>
