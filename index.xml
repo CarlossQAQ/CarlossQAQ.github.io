@@ -85,6 +85,43 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr&gt;
+&lt;h2 id=&#34;1203---third-team-meeting&#34;&gt;12.03 - Third Team Meeting
+&lt;/h2&gt;&lt;h3 id=&#34;keyword-merging&#34;&gt;Keyword Merging
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Original Keywords&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Merged Keyword&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Dementia - Alzheimer&amp;rsquo;s Disease&lt;/td&gt;
+&lt;td&gt;Dementia/Alzheimer&amp;rsquo;s Disease&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Bipolar Disorder - Mood Disorders&lt;/td&gt;
+&lt;td&gt;Bipolar Disorder&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;keyword-and-annotation-adjustments&#34;&gt;Keyword and Annotation Adjustments
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Keyword Cleanup&lt;/strong&gt;: Removed content related to novels and movies; brackets and quotation marks were excluded.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Retweet Text Processing&lt;/strong&gt;: Retained only the current user’s text in retweets.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Annotation Data Expansion&lt;/strong&gt;: Ensured at least &lt;strong&gt;500 annotations per keyword.&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Keyword Extension&lt;/strong&gt;: Added suffixes to enhance search results.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Keyword Refinement&lt;/strong&gt;: Adjusted keywords and search strategies, such as replacing &amp;ldquo;PTSD&amp;rdquo; with a combined &amp;ldquo;PTSD and Trauma disorder.&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Keyword Deletion&lt;/strong&gt;: Removed irrelevant keywords, such as &amp;ldquo;Heatiness&amp;rdquo; and &amp;ldquo;Mental illness.&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Independent Annotation for Similar Keywords&lt;/strong&gt;: Ensured at least 500 annotations for each group.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;improvement-requirements&#34;&gt;Improvement Requirements
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;Literature review on two critical papers.&lt;/li&gt;
+&lt;li&gt;Increase meeting frequency for better alignment.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;tool-update&#34;&gt;Tool Update
+&lt;/h3&gt;&lt;p&gt;Upgraded to Annotation Tool V4 with enhanced functionality, improved autosave, and added deletion features.&lt;/p&gt;
 </description>
         </item>
         <item>
